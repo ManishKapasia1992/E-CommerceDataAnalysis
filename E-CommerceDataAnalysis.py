@@ -53,16 +53,17 @@ data = data[(data.UnitPrice >= 0) & (data.UnitPrice < 20000)]
 result = data.groupby('Country').sum()
 result.sort_values(by=['Sales'], inplace=True, ascending=False)
 print(result)
-#
+
 countries = [country for country, df in data.groupby('Country')]
 # countries = [data.Country.unique()]
-# # print((countries))
+# print((countries))
 plot = plt.bar(countries, result['Sales'])
 plt.xticks(rotation=90)
 plt.yticks(result['Sales'])
 plt.show()
 
 # 2. Which costumer has highest sales
+
 result = data.groupby('CustomerID').sum()[['Sales', 'Quantity']].reset_index()
 # print(result.sort_values(['Sales', 'Quantity'], ascending=False))
 # result = data.groupby('CustomerID').sum()
@@ -71,8 +72,8 @@ result = data.groupby('CustomerID').sum()[['Sales', 'Quantity']].reset_index()
 
 Revenue = data.groupby('CustomerID')[['Sales', 'Quantity']].agg(['sum', 'mean', 'median'])
 # Revenue.sort_values(by=[('Sales','sum')], inplace=True, ascending=False)
-# # Revenue.sort_values(by=['Sales', 'Quantity'], inplace=True, ascending=False)
-# # print(Revenue[1:].reset_index())
+# Revenue.sort_values(by=['Sales', 'Quantity'], inplace=True, ascending=False)
+# print(Revenue[1:].reset_index())
 # print(Revenue.iloc[1:][('Sales', 'sum')].describe())
 # print(Revenue.iloc[1:][['Sales', 'Quantity']].describe())
 
@@ -81,6 +82,7 @@ Revenue = data.groupby('CustomerID')[['Sales', 'Quantity']].agg(['sum', 'mean', 
 # plt.show()
 
 # 3. which customerID returns the order most
+
 data = data[data.Quantity < 0]
 # Item_Returned = data.groupby('CustomerID')[['Sales', 'Quantity']].sum()
 # Item_Returned.sort_values(by=['Quantity'], inplace=True, ascending=True)
@@ -139,12 +141,14 @@ Item_sold_most1 = data.groupby('StockCode')[['Quantity']].sum()
 # print(Item_sold_most1)
 
 # 6. Which Country bring more revenue in total and average ?
-#
+
 Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # Most_Revenue_Country.sort_values(by='Sales', inplace=True, ascending=False)
-# # Most_Revenue_Country = Most_Revenue_Country.head(10)
+# Most_Revenue_Country = Most_Revenue_Country.head(10)
 # print(Most_Revenue_Country)
-#
+
+# Lets plot the observations in graph
+
 # plt.figure(constrained_layout=True, figsize=(8,6))
 # sns.barplot(x=Most_Revenue_Country.index, y=Most_Revenue_Country.Sales)
 # plt.xlabel('Countries')
@@ -153,13 +157,14 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # plt.show()
 
 # Lets draw a graph without the United Kingdom
+
 # Most_Revenue_Country.drop('United Kingdom', inplace=True)
 # plt.figure(constrained_layout=True, figsize=(8,6))
-# # sns.barplot(x=Most_Revenue_Country.index, y=Most_Revenue_Country.Sales)
+# sns.barplot(x=Most_Revenue_Country.index, y=Most_Revenue_Country.Sales)
 # sns.barplot(y=Most_Revenue_Country.index, x=Most_Revenue_Country.Sales)
 # plt.xlabel('Countries')
 # plt.ylabel('Total Amount of Sales/Revenue')
-# # plt.xticks(rotation=70)
+# plt.xticks(rotation=70)
 # plt.show()
 
 # print(data.InvoiceNo.dtype)
@@ -192,6 +197,7 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # fig.show()
 
 # 8. Lets find the Countries Qauntity Numbers
+
 # Most_Revenue_Country = data.groupby('Country')[['Quantity']].sum()
 # Most_Revenue_Country.sort_values(by='Quantity', inplace=True, ascending=False)
 # Most_Revenue_Country = Most_Revenue_Country.head(10)
@@ -212,10 +218,11 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # sns.barplot(y=Most_Revenue_Country.index, x=Most_Revenue_Country[('UnitPrice', 'mean')])
 # plt.ylabel('Countries')
 # plt.xlabel('Mean values of total no. of products bought per total no. of UnitPrices')
-# # plt.xticks(rotation=90)
+# plt.xticks(rotation=90)
 # plt.show()
 
 # 7. Which month we sell out most and least ?
+
 # Most_Month_Sales = data.groupby('Month')['Sales'].agg(['sum', 'mean'])
 # Most_Month_Sales.sort_values(by=[('Sales', 'sum')], inplace=True, ascending=False)
 # Most_Month_Sales =Most_Month_Sales.head(10)
@@ -227,21 +234,23 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 
 # fig, axes = plt.subplots(1, 2, figsize=(12,6))
 # axes = axes.flatten()
-#
+
 # sns.barplot(x=Most_Month_Sales.index, y=Most_Month_Sales['sum'], ax=axes[0])#.set_title('Total Revenue over a year')
 # plt.title('Total Revenue over a year')
 # plt.ylabel('a')
-#
+
 # sns.barplot(x=Most_Month_Sales.index, y=Most_Month_Sales['mean'], ax=axes[1])#.set_title('Average Revenue over a year')
 # plt.title('Average Revenue over a year')
 # plt.show()
 
 # 8. What time do people tend to buy products more ?
+
 # Most_product_bought_time = data.groupby(['Hour'])['Sales'].agg(['sum', 'mean'])
 # Most_product_bought_time.sort_values(by='Quantity', inplace=True, ascending=False)
 # print(Most_product_bought_time.head(10))
 
 # Lets draw the graph
+
 # fig, axes = plt.subplots(1, 2, figsize=(10, 6))
 # axes = axes.flatten()
 
@@ -252,14 +261,14 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # plt.show()
 
 # 9. Which day of week people tend to visit and purchase stuff ?
+
 # Most_Day_Sales = data.groupby(['DayOfWeek'])['Sales'].agg(['sum', 'mean'])
-#
 # print(Most_Day_Sales)
-#
+
 # Lets draw the graph
+
 # fig, axes = plt.subplots(1, 2, figsize=(10, 6))
 # axes = axes.flatten()
-#
 # sns.barplot(x=Most_Day_Sales.index, y=Most_Day_Sales['sum'], ax=axes[0]).set_title('Total sales over the days of a week')
 
 # sns.barplot(x=Most_Day_Sales.index, y=Most_Day_Sales['mean'], ax=axes[1]).set_title('Total Average sales over the days of a week')
@@ -277,8 +286,8 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # data = data[data['InvoiceDate'] < '2011-12-01']
 
 # Get total amount spent per invoice and associate it with CustomerID and Country
-# Invoice_Customer_Sales = data.groupby(['InvoiceNo', 'InvoiceDate']).agg({'Sales': sum,
-#                                                 'CustomerID': max, 'Country': max}).reset_index()
+
+# Invoice_Customer_Sales = data.groupby(['InvoiceNo', 'InvoiceDate']).agg({'Sales': sum, 'CustomerID': max, 'Country': max}).reset_index()
 # print(Invoice_Customer_Sales)
 
 # 11. Lets find the repeat customers monthly
@@ -293,6 +302,7 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # print(Monthly_Unique_Customers)
 
 # Now Lets find the Ratio of Repeat to Unique Customer
+
 # Monthly_Repeat_Percentage = Monthly_Repeat_Customers/Monthly_Unique_Customers*100.0
 # print(Monthly_Repeat_Percentage)
 
@@ -300,11 +310,10 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 
 # fig = plt.figure(constrained_layout=True, figsize=(8, 6))
 # grid = gridspec.GridSpec(nrows=1, ncols=1,  figure=fig)
-#
 # ax = fig.add_subplot(grid[0, 0])
-#
+
 # pd.DataFrame(Monthly_Repeat_Customers.values).plot(ax=ax, figsize=(8,6))
-#
+
 # pd.DataFrame(Monthly_Unique_Customers.values).plot(ax=ax,grid=True)
 
 # ax.set_xlabel('Date')
@@ -336,11 +345,8 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 
 # fig = plt.figure(constrained_layout=True, figsize=(8,6))
 # grid = gridspec.GridSpec(nrows=1, ncols=1, figure=fig)
-#
 # ax = fig.add_subplot(grid[0,0])
-#
 # pd.DataFrame(Monthly_Sales_Repeat_Customers.values).plot(ax=ax, figsize=(8,6))
-#
 # pd.DataFrame(Monthly_Sales.values).plot(ax=ax, grid=True)
 
 # ax.set_xlabel('Date')
@@ -353,11 +359,13 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # 13. What are the items trend ?
 
 # Now let's get quantity of each item sold per month
+
 # Quantity_Item_Sold_PerMonth = data.set_index('InvoiceDate').groupby([pd.Grouper(freq='M'), 'StockCode'])[['Quantity']].sum()
 # Quantity_Item_Sold_PerMonth.sort_values(by='Quantity', inplace=True, ascending=False)
 # print(Quantity_Item_Sold_PerMonth.head(15))
 
 # Rank items by the last month's sales
+
 # Last_Month_Sorted_Data = Quantity_Item_Sold_PerMonth.loc['2011-11-30'].reset_index()
 # Last_Month_Sorted_Data.sort_values(by='Quantity', inplace=True, ascending=False)
 # print(Last_Month_Sorted_Data.head(10))
@@ -368,7 +376,8 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # Most_Sold_Item_OverYear.sort_values(by='Sales', inplace=True, ascending=False)
 # print(Most_Sold_Item_OverYear.head(5))
 
-# this will tell us about the whole year means which products leads in term of sales
+# This will tell us about the whole year means which products leads in term of sales
+
 # Most_Sold_Item_OverYear = data.groupby(['StockCode', 'Description'])[['Quantity']].sum()
 # Most_Sold_Item_OverYear.sort_values(by='Quantity', inplace=True, ascending=False)
 # print(Most_Sold_Item_OverYear.head(5))
@@ -379,13 +388,14 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # print(Most_Sold_Item_EachMonth.head(5))
 
 # 15. Lets look at as per the months which 5 products have topped the list
+
 # Quantity_Item_Sold_PerMonth= data.loc[data['StockCode'].isin(['23084', '84826', '22197', '22086','85099B'])
 # ].set_index('InvoiceDate').groupby([pd.Grouper(freq='M'),'StockCode','Description'])['Quantity'].sum().reset_index()
 # print(Quantity_Item_Sold_PerMonth)
 
 # Lets draw the graph
+
 # Quantity_Item_Sold_PerMonth = Quantity_Item_Sold_PerMonth.reset_index()
-#
 # sns.set(style='whitegrid')
 # plt.figure(constrained_layout=True, figsize=(8, 6))
 # sns.lineplot(x=Quantity_Item_Sold_PerMonth['InvoiceDate'], y=Quantity_Item_Sold_PerMonth['Quantity'],
@@ -393,10 +403,12 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # plt.show()
 
 # 16. Top 10 ReOrdered Items
+
 # Reordered_Items = data.groupby(['StockCode', 'Description'])['InvoiceNo'].count().sort_values(ascending=False)
 # print(Reordered_Items.head(10))
 
 # 17. What is the Mall's Cancellation Rate ?
+
 # Number_Canceled_Orders = data[data['Quantity']<0]['InvoiceNo'].nunique()
 # print(Number_Canceled_Orders)
 # Total_Orders = data['InvoiceNo'].nunique()
@@ -404,6 +416,7 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # print("Mall's Cancellation Rate: {:.2f}%".format(Number_Canceled_Orders/Total_Orders * 100.0))
 
 # 18. The revenue comes from repeat items or 1 items per month?
+
 # Sales_Repeat_Items = data.groupby(['StockCode', 'Description'])['Sales'].sum().sort_values(ascending=False)
 # Sales_Repeat_Items = data.groupby(['StockCode'])['Sales'].sum().sort_values(ascending=False)
 # print(Sales_Repeat_Items.head(10))
@@ -420,13 +433,13 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # print(Monthly_Sales)
 
 # Lets draw the graph
+
 # fig = plt.figure(constrained_layout=True, figsize=(8, 6))
-#
 # ax = fig.add_subplot()
 # pd.DataFrame(Monthly_Reorder_Items_Sales.values).plot(ax=ax, figsize=(12,8))
 # pd.DataFrame(Monthly_Sales.values).plot(ax=ax,grid=True)
 # pd.DataFrame(Monthly_One_Items_Sales.values).plot(ax=ax,grid=True)
-#
+
 # ax.set_xlabel('Date')
 # ax.set_ylabel('Number of Customers')
 # ax.set_title('Number of Unique vs. Repeat vs Total Items Over Time')
@@ -435,7 +448,9 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # plt.show()
 
 # MODELLING
+
 # RandomForest Regression
+
 # Invoice_count = data.groupby(by='CustomerID', as_index=False)['InvoiceNo'].count()
 # Invoice_ct = data.groupby(by='CustomerID', as_index=False)['Quantity'].count() # They are also same
 # Invoice_ct = data.groupby('CustomerID', as_index=False)['InvoiceNo'].count() # will display same results
@@ -444,11 +459,13 @@ Most_Revenue_Country = data.groupby('Country')[['Sales']].sum()
 # print(Invoice_ct)
 
 # 19. This is the Average UnitPrice For Each at which they bought the products
+
 # UnitPrice = data.groupby(by='CustomerID', as_index=False)['UnitPrice'].mean()
 # UnitPrice.columns = ['CustomerID', 'Unitprice']
 # print(UnitPrice)
 
 # 20. Sales Made by each customer
+
 # Sales = data.groupby(by='CustomerID', as_index=False)['Sales'].sum()
 # Sales.columns=['CustomerID', 'Sales']
 # Sales.sort_values(by='Sales', inplace=True, ascending=False)
@@ -493,6 +510,6 @@ import functools
 # y = CustomerTable['Revenue']
 
 # Observation:
+
 # NumberOrders and UnitPrice are 2 most important factors of forming revenue.
 # days-as-customers and days-since-purcharse may not contribute much to see if a customer is loyal and bring most revenue to us.
-
