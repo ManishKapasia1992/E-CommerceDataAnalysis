@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 
 # Merging 12 months of data into a single CSV file
+
 df = pd.read_csv("C://Users//admin//Desktop//Pandas-Data-Science-Tasks-master//SalesAnalysis//Sales_Data//Sales_April_2019.csv")
 #print(df.head())
 files = [file for file in os.listdir('C:\\Users\\admin\\Desktop\\Pandas-Data-Science-Tasks-master\\SalesAnalysis\\Sales_Data')]
@@ -40,6 +41,7 @@ all_data['month'] = all_data['month'].astype('int32')# to convert a string into 
 #print(all_data.head())
 
 # Convert the columns Quantity Ordered and the Price Each into numeric values
+
 all_data = all_data[all_data['Quantity Ordered'].str[0] != 'Q']
 #all_data['Quantity Ordered']= all_data['Quantity Ordered'].str[0]
 #all_data['Quantity Ordered']= all_data['Quantity Ordered'].astype('int32')
@@ -49,10 +51,12 @@ all_data['Price Each'] = pd.to_numeric(all_data['Price Each'])
 
 
 # Add the Sales column
+
 all_data['Sales'] = all_data['Quantity Ordered'] * all_data['Price Each']
 #print(all_data.head())
 
 # Add the city column
+
 def get_city(address):
     return address.split(',')[1]
 
@@ -66,10 +70,12 @@ all_data['City'] = all_data['Purchase Address'].apply(lambda x: f"{get_city(x)} 
 #print(all_data.head())
 
 # What was the best month for sales? How much was earned that month?
+
 #results = all_data.groupby('month').sum()
 #print(all_data.groupby('month').sum())
 
 # Plot the graph of sales vs months
+
 month = range(1,13)
 #plt.bar(month, results['Sales'])
 #plt.xticks(month)
@@ -78,6 +84,7 @@ month = range(1,13)
 #plt.show()
 
 # Which city had the highest no. of sales
+
 result2 = all_data.groupby('City').sum()
 #print(result2)
 #cities = all_data['City'].unique() # This will unordered the cities values
@@ -89,6 +96,7 @@ cities = [city for city, df in all_data.groupby('City')]
 #plt.show()
 
 # What is the best time to display adds to maximize likelihood of customer's buying product
+
 all_data['Order Date'] = pd.to_datetime(all_data['Order Date'])
 #print(all_data.groupby('Order Date').sum())
 all_data['Hour'] = all_data['Order Date'].dt.hour
@@ -106,6 +114,7 @@ plt.grid()
 plt.show()'''
 
 # What products are most often sold together
+
 #print(all_data.head())
 df = all_data[all_data['Order ID'].duplicated(keep=False)]
 df['Grouped'] = df.groupby('Order ID')['Product'].transform(lambda x: ','.join(x))
@@ -124,6 +133,7 @@ for key, value in count.most_common(10):
 
 
 # Which product sold most and why
+
 #print(all_data.head())
 product_group = all_data.groupby('Product')
 #print(product_group.sum())
